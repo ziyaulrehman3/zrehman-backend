@@ -25,8 +25,8 @@ app.post("/contact", async (req, res) => {
   }
 });
 
-app.listen(process.env.PORT || 3000, () => {
-  console.log("Server is Running..");
-});
+// app.listen(process.env.PORT || 3000, () => {
+//   console.log("Server is Running..");
+// });
 
 export default app;
