@@ -1,3 +1,6 @@
+import dotenv from "dotenv";
+dotenv.config();
+
 import nodemailer from "nodemailer";
 
 const Transporter = nodemailer.createTransport({
@@ -5,12 +8,13 @@ const Transporter = nodemailer.createTransport({
   port: 587,
   secure: false,
   auth: {
-    user: "system.zrehmaninfotech@gmail.com",
+    user: process.env.USER_GMAIL,
     pass: process.env.APP_PASSWORD_GMAIL,
   },
 });
 
 export const ContactMailSender = async ({ name, email, mobile, msg }) => {
+  console.log(process.env.APP_PASSWORD_GMAIL);
   return Transporter.sendMail({
     from: '"Z-Rehman Infotech" <system.zrehmaninfotech@gmail.com>',
     to: "zrehmaninfotech@yahoo.com",
