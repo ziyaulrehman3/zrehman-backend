@@ -1,0 +1,30 @@
+import dotenv from "dotenv";
+dotenv.config();
+
+import express from "express";
+
+import { ContactMailSender } from "./assets/Mailer.js";
+
+const app = express();
+
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+
+app.get("/", (req, res) => {
+  res.send("Hello from Server");
+});
+
+app.post("/contact", async (req, res) => {
+  const data = req.body;
+  try {
+    await ContactMailSender(data);
+    res.status(200).json({ message: "Query Submitted!" });
+  } catch (err) {
+    console.log(err);
+    res.status(400).json({ message: "Error, Try Again!" });
+  }
+});
+
+app.listen("3000", () => {
+  console.log("Server is Running..");
+});
