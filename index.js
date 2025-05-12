@@ -16,17 +16,26 @@ app.get("/", (req, res) => {
 
 app.post("/contact", async (req, res) => {
   const data = req.body;
-  try {
-    await ContactMailSender(data);
-    res.status(200).json({ message: "Query Submitted!" });
-  } catch (err) {
-    console.log(err);
-    res.status(400).json({ message: "Error, Try Again!" });
+
+  if (process.env.CONTACT_FORM_KEY === req.headers.key) {
+    try {
+      await ContactMailSender(data);
+      res.status(200).json({ message: "Query Submitted!" });
+    } catch (err) {
+      console.log(err);
+      res.status(400).json({ message: "Error, Try Again!" });
+    }
+  } else {
+    res.status(401).json({ message: "You're Unauthorized" });
   }
 });
 
-// app.listen(process.env.PORT || 3000, () => {
-//   console.log("Server is Running..");
-// });
+app.get("/signup", () => {
+  res.send("Hello ");
+});
+
+app.listen(process.env.PORT || 3000, () => {
+  console.log("Server is Running..");
+});
 
 export default app;
